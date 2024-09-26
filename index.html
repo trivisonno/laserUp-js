@@ -1,38 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>3D Relief Map Generator</title>
+  <!-- Include Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  >
   <style>
     body {
       font-family: Arial, sans-serif;
+      padding-top: 20px;
     }
     #svg-output {
       margin-top: 20px;
     }
     svg {
       border: 1px solid #ccc;
+      max-width: 100%;
+      height: auto;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .custom-file-label::after {
+      content: "Browse";
     }
   </style>
 </head>
 <body>
-  <h1>3D Relief Map Generator</h1>
-  <p>Generate 3D relief map slices for laser cutting.</p>
-  <p>First download topographic DMS data file from http://singleton.io/peak-map/</p>
-  <form id="generator-form">
-    <label for="json-file">DMS File:</label><br>
-    <input type="file" id="json-file" accept=".dms"><br><br>
-    <label for="thickness-mm">Material Thickness (mm):</label>
-    <input type="number" id="thickness-mm" value="1.0" step="0.1"><br>
-    <label for="max-height-mm">Max Design Height (mm):</label>
-    <input type="number" id="max-height-mm" value="60" step="1"><br>
-    <label><input type="checkbox" id="land-only"> Ignore rows with no land</label><br><br>
-    <button type="button" id="generate-button">Generate SVGs</button>
-    <button type="button" id="download-button" style="display: none;">Download ZIP</button>
-  </form>
-  <div id="svg-output"></div>
+  <div class="container">
+    <h1 class="text-center">3D Relief Map Generator</h1>
+    <p class="text-center"><strong>Go to <a href="https://singleton.io/peak-map/" target="_blank">https://singleton.io/peak-map/</a>. Move and zoom to the area you want to generate a relief map for. <br>Click "Draw peaks" and then "Get data for laserUp". This generates a .DMS file.</strong></p>
+    <p class="text-center"><strong>Select your .DMS file. Adjust the material thickness (the thickness of each slice) and max design height (the maximum height of the map). <br>Click "Generate SVGs". This generates a zip file with SVG files for each row of the map.</strong></p>
+    <form id="generator-form">
+      <div class="form-group">
+        <label for="json-file">Select your .DMS file:</label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="json-file" accept=".dms,.json">
+          <label class="custom-file-label" for="json-file">Choose file</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="thickness-mm">Material Thickness (thickness of each slice in mm):</label>
+        <input type="number" class="form-control" id="thickness-mm" value="1.0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label for="max-height-mm">Max Design Height (maximum height of the map in mm):</label>
+        <input type="number" class="form-control" id="max-height-mm" value="60" step="1">
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="land-only">
+        <label class="form-check-label" for="land-only">Ignore rows with no land</label>
+      </div>
+      <button type="button" class="btn btn-primary" id="generate-button">Generate SVGs</button>
+      <button type="button" class="btn btn-success" id="download-button" style="display: none;">Download ZIP</button>
+    </form>
+    <div id="svg-output" class="mt-4"></div>
+  </div>
 
   <!-- Include JSZip library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <!-- Include Bootstrap JS and dependencies -->
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+  ></script>
+  <!-- Include the main script -->
   <script src="script.js"></script>
 </body>
 </html>
